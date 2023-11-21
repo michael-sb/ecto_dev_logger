@@ -81,10 +81,10 @@ end
 if Code.ensure_loaded?(Geo.Point) do
   defimpl Ecto.DevLogger.PrintableParameter, for: Geo.Point do
     def to_expression(point) do
-      point |> to_string_literal() |> Ecto.DevLogger.Utils.in_string_quotes()
+      point |> to_string_literal()
     end
 
-    def to_string_literal(point), do: inspect(point, pretty: true)
+    def to_string_literal(%Geo.Point{coordinates: {lat, lon}, srid: srid}), do: "'SRID=#{srid};POINT(#{lat} #{lon})'"
   end
 end
 
